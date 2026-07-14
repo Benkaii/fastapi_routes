@@ -66,8 +66,8 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "app:test"
-          format: "table"
+          image-ref: app:test
+          format: table
           exit-code: "1"
           ignore-unfixed: true
           severity: CRITICAL
@@ -87,15 +87,15 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/fastapi_secure_users:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/fastapi_secure_users:${{ github.sha }}
           platforms: linux/amd64
+          tags: |
+            benkaii/fastapi_secure_users:latest
+            benkaii/fastapi_secure_users:${{ github.sha }}
