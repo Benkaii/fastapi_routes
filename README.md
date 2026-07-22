@@ -1,32 +1,42 @@
-# FastAPI Calculation Model
+# FastAPI User & Calculation Routes
 
 ## Overview
 
-This project builds on the secure FastAPI user application from Module 10 by adding a SQLAlchemy Calculation model, Pydantic validation, calculation factory logic, PostgreSQL integration tests, and automated Docker deployment.
+This project builds on the secure FastAPI application developed in previous modules by implementing complete BREAD (Browse, Read, Edit, Add, Delete) calculation routes and user authentication. The application uses FastAPI, SQLAlchemy, PostgreSQL, and Pydantic to securely manage users and calculation records while validating all incoming requests and responses.
 
-The Calculation model supports addition, subtraction, multiplication, and division. Calculations are associated with valid users through a foreign-key relationship.
+Users can register and log in using securely hashed passwords. Authenticated users can create, browse, read, update, and delete calculation records stored in a PostgreSQL database. The project also includes automated unit and integration testing, Docker containerization, GitHub Actions CI/CD, and Docker Hub deployment.
+
+---
 
 ## Features
 
-- SQLAlchemy User and Calculation models
-- Calculation fields for `a`, `b`, `type`, `result`, and `user_id`
-- Foreign-key relationship between calculations and users
-- Pydantic `CalculationCreate` and `CalculationRead` schemas
-- Validation for supported calculation types
-- Division-by-zero validation
-- Factory pattern for calculation operations
-- Unit and PostgreSQL integration tests
+- User Registration with secure password hashing
+- User Login with password verification
+- Browse all calculations
+- Read a calculation by ID
+- Add new calculations
+- Update existing calculations
+- Delete calculations
+- SQLAlchemy ORM models
+- PostgreSQL database integration
+- Pydantic request and response validation
+- Factory pattern for performing calculations
+- Unit and integration testing
 - Docker containerization
 - GitHub Actions CI/CD pipeline
 - Trivy container security scanning
 - Automatic Docker Hub deployment
 
+---
+
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/Benkaii/fastapi_calculations.git
-cd fastapi_calculations
+git clone https://github.com/Benkaii/fastapi_routes.git
+cd fastapi_routes
 ```
+
+---
 
 ## Install Dependencies
 
@@ -34,57 +44,63 @@ cd fastapi_calculations
 pip install -r requirements.txt
 ```
 
-## Run with Docker Compose
+---
+
+## Run the Application
+
+Build and start the application using Docker Compose:
 
 ```bash
-docker compose up -d --build
+docker compose up --build
 ```
 
-The FastAPI application will be available at:
+The application will be available at:
 
-```text
+```
 http://localhost:8000
 ```
 
-Swagger documentation:
+Swagger API documentation:
 
-```text
+```
 http://localhost:8000/docs
 ```
 
+---
+
 ## Run Tests Locally
 
-Run unit and integration tests inside Docker:
+Run all tests:
 
 ```bash
-docker compose exec web pytest tests/unit tests/integration -v
+pytest
 ```
 
-Run unit tests only:
+Run only unit tests:
 
 ```bash
 pytest tests/unit -v
 ```
 
-Run integration tests only:
+Run only integration tests:
 
 ```bash
 pytest tests/integration -v
 ```
 
-Run tests with coverage:
+Run tests with code coverage:
 
 ```bash
-pytest tests/unit tests/integration --cov=app --cov-report=term-missing
+pytest --cov=app --cov-report=term-missing
 ```
+
+---
 
 ## Docker Hub
 
-Docker Hub repository:
+Docker image:
 
-```text
 https://hub.docker.com/r/benkaii/fastapi_calculations
-```
 
 Pull the latest image:
 
@@ -92,22 +108,51 @@ Pull the latest image:
 docker pull benkaii/fastapi_calculations:latest
 ```
 
+---
+
 ## GitHub Repository
 
-```text
-https://github.com/Benkaii/fastapi_calculations
-```
+Repository:
+
+https://github.com/Benkaii/fastapi_routes
+
+---
 
 ## CI/CD Pipeline
 
-GitHub Actions automatically:
+GitHub Actions automatically performs the following tasks whenever code is pushed to the repository:
 
+- Builds the Docker containers
 - Starts a PostgreSQL service
-- Runs unit and integration tests
-- Enforces test coverage
-- Builds the Docker image
-- Scans the image with Trivy
-- Pushes the image to Docker Hub after successful testing and scanning
+- Runs unit tests
+- Runs integration tests
+- Verifies API functionality
+- Performs Trivy security scanning on the Docker image
+- Pushes the Docker image to Docker Hub after all tests pass successfully
+
+---
+
+## API Endpoints
+
+### User Routes
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/users/register` | Register a new user |
+| POST | `/users/login` | Authenticate a user |
+| GET | `/users/{username}` | Retrieve a user by username |
+
+### Calculation Routes
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/calculations` | Browse all calculations |
+| POST | `/calculations` | Create a new calculation |
+| GET | `/calculations/{calculation_id}` | Read a calculation by ID |
+| PUT | `/calculations/{calculation_id}` | Update an existing calculation |
+| DELETE | `/calculations/{calculation_id}` | Delete a calculation |
+
+---
 
 ## Technologies Used
 
@@ -116,7 +161,18 @@ GitHub Actions automatically:
 - SQLAlchemy
 - PostgreSQL
 - Pydantic
+- bcrypt
 - Pytest
 - Docker
+- Docker Compose
 - GitHub Actions
 - Trivy
+
+---
+
+## Author
+
+**Ismael Albilal**
+
+Master of Science in Cybersecurity & Privacy  
+New Jersey Institute of Technology
